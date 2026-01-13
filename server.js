@@ -20,6 +20,11 @@ app.use(express.json({ limit: "1mb" }));
    Generate Email Endpoint
 ------------------------------ */
 app.post("/generate-email", async (req, res) => {
+  const apiKey = req.headers["x-app-key"];
+
+  if (apiKey !== process.env.APP_SECRET) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const {
       degree,
